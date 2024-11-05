@@ -107,7 +107,7 @@ def check_certificate():
                 "error_code": "ERR_IOT_HTTPS_CHECK_NO_SERVER"}
 
     if platform.system() == 'Windows':
-        path = Path(get_path_nginx()).joinpath('conf/nginx-cert.crt')
+        path = Path(get_path_nginx()).joinpath('config/nginx-cert.crt')
     elif platform.system() == 'Linux':
         path = Path('/etc/ssl/certs/nginx-cert.crt')
 
@@ -207,7 +207,7 @@ def check_image():
 
 def save_conf_server(url, token, db_uuid, enterprise_code):
     """
-    Save server configurations in odoo.conf
+    Save server configurations in odoo.config
     :param url: The URL of the server
     :param token: The token to authenticate the server
     :param db_uuid: The database UUID
@@ -285,7 +285,7 @@ def get_path_nginx():
 def get_ssid():
     ap = subprocess.call(['systemctl', 'is-active', '--quiet', 'hostapd']) # if service is active return 0 else inactive
     if not ap:
-        return subprocess.check_output(['grep', '-oP', '(?<=ssid=).*', '/etc/hostapd/hostapd.conf']).decode('utf-8').rstrip()
+        return subprocess.check_output(['grep', '-oP', '(?<=ssid=).*', '/etc/hostapd/hostapd.config']).decode('utf-8').rstrip()
     process_iwconfig = subprocess.Popen(['iwconfig'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     process_grep = subprocess.Popen(['grep', 'ESSID:"'], stdin=process_iwconfig.stdout, stdout=subprocess.PIPE)
     return subprocess.check_output(['sed', 's/.*"\\(.*\\)"/\\1/'], stdin=process_grep.stdout).decode('utf-8').rstrip()
@@ -387,8 +387,8 @@ def load_certificate():
             Path('/etc/ssl/private/nginx-cert.key').write_text(result['private_key_pem'])
             Path('/root_bypass_ramdisks/etc/ssl/private/nginx-cert.key').write_text(result['private_key_pem'])
     elif platform.system() == 'Windows':
-        Path(get_path_nginx()).joinpath('conf/nginx-cert.crt').write_text(result['x509_pem'])
-        Path(get_path_nginx()).joinpath('conf/nginx-cert.key').write_text(result['private_key_pem'])
+        Path(get_path_nginx()).joinpath('config/nginx-cert.crt').write_text(result['x509_pem'])
+        Path(get_path_nginx()).joinpath('config/nginx-cert.key').write_text(result['private_key_pem'])
     time.sleep(3)
     if platform.system() == 'Windows':
         odoo_restart(0)
@@ -508,8 +508,8 @@ def write_file(filename, text, mode='w'):
     with writable():
         path = path_file(filename)
         with open(path, mode) as f:
-            if path.suffix == '.conf' and isinstance(text, configparser.ConfigParser):
-                # As we are dealing with conf files, :filename: is a Path object, as it was created by path_file for
+            if path.suffix == '.config' and isinstance(text, configparser.ConfigParser):
+                # As we are dealing with config files, :filename: is a Path object, as it was created by path_file for
                 # configparser. More, :text: is assumed to be a ConfigParser object.
                 text.write(f)
             else:
@@ -558,34 +558,34 @@ def get_hostname():
 
 def update_conf(values, section='iot.box'):
     """
-    Update odoo.conf with the given key and value.
+    Update odoo.config with the given key and value.
     :param values: The dictionary of key-value pairs to update the config with.
     :param section: The section to update the key-value pairs in (Default: iot.box).
     """
-    _logger.debug("Updating odoo.conf with values: %s", values)
+    _logger.debug("Updating odoo.config with values: %s", values)
     conf = get_conf()
     get_conf.cache_clear()  # Clear the cache to get the updated config
 
     if not conf.has_section(section):
-        _logger.debug("Creating new section '%s' in odoo.conf", section)
+        _logger.debug("Creating new section '%s' in odoo.config", section)
         conf.add_section(section)
 
     for key, value in values.items():
         conf.set(section, key, value) if value else conf.remove_option(section, key)
 
-    write_file("odoo.conf", conf)
+    write_file("odoo.config", conf)
 
 
 @cache
 def get_conf(key=None, section='iot.box'):
     """
-    Get the value of the given key from odoo.conf, or the full config if no key is provided.
+    Get the value of the given key from odoo.config, or the full config if no key is provided.
     :param key: The key to get the value of.
     :param section: The section to get the key from (Default: iot.box).
-    :return: The value of the key provided or None if it doesn't exist, or full conf object if no key is provided.
+    :return: The value of the key provided or None if it doesn't exist, or full config object if no key is provided.
     """
     conf = configparser.ConfigParser()
-    conf.read(path_file("odoo.conf"))
+    conf.read(path_file("odoo.config"))
 
     return conf.get(section, key, fallback=None) if key else conf  # Return the key's value or the configparser object
 

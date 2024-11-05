@@ -14,7 +14,7 @@ class TestConfigManager(TransactionCase):
     maxDiff = None
 
     def test_01_default_config(self):
-        config = configmanager(fname=file_path('base/tests/config/empty.conf'))
+        config = configmanager(fname=file_path('base/tests/config/empty.config'))
 
         default_values = {
             # options not exposed on the command line
@@ -250,7 +250,7 @@ class TestConfigManager(TransactionCase):
                 }
             )
 
-        config_path = file_path('base/tests/config/non_default.conf')
+        config_path = file_path('base/tests/config/non_default.config')
         config = configmanager(fname=config_path)
         self.assertEqual(config.rcfile, config_path, "Config file path doesn't match")
 
@@ -262,11 +262,11 @@ class TestConfigManager(TransactionCase):
     @unittest.skipIf(not IS_POSIX, 'this test is POSIX only')
     def test_03_save_default_options(self):
         with file_open_temporary_directory(self.env) as temp_dir:
-            config_path = f'{temp_dir}/save.conf'
+            config_path = f'{temp_dir}/save.config'
             config = configmanager(fname=config_path)
             config._parse_config(['--config', config_path, '--save'])
             with (file_open(config_path, env=self.env) as config_file,
-                  file_open('base/tests/config/save_posix.conf', env=self.env) as save_file):
+                  file_open('base/tests/config/save_posix.config', env=self.env) as save_file):
                 config_content = config_file.read().rstrip()
                 save_content = save_file.read().format(
                     root_path=ROOT_PATH,
@@ -278,7 +278,7 @@ class TestConfigManager(TransactionCase):
     def test_04_odoo16_config_file(self):
         # test that loading the Odoo 16.0 generated default config works
         # with a modern version
-        config = configmanager(fname=file_path('base/tests/config/16.0.conf'))
+        config = configmanager(fname=file_path('base/tests/config/16.0.config'))
 
         assert_options = {
             # options taken from the configuration file

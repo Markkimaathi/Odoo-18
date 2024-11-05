@@ -370,8 +370,8 @@ class DockerRpm(Docker):
             'su postgres -c "createuser -s odoo"',
             'su odoo -c "createdb mycompany"',
             'dnf install -d 0 -e 0 /data/src/odoo_%s.%s.rpm -y' % (VERSION, TSTAMP),
-            'su odoo -s /bin/bash -c "odoo -c /etc/odoo/odoo.conf -d mycompany -i base --stop-after-init"',
-            'su odoo -s /bin/bash -c "odoo -c /etc/odoo/odoo.conf -d mycompany --pidfile=/data/src/odoo.pid"',
+            'su odoo -s /bin/bash -c "odoo -c /etc/odoo/odoo.config -d mycompany -i base --stop-after-init"',
+            'su odoo -s /bin/bash -c "odoo -c /etc/odoo/odoo.config -d mycompany --pidfile=/data/src/odoo.pid"',
         ]
         self.run(' && '.join(cmds), args.build_dir, 'odoo-rpm-test-%s' % TSTAMP, user='root', detach=True, exposed_port=8069, timeout=300)
         self.test_odoo()

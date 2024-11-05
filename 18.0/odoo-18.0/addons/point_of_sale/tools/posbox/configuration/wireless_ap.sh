@@ -55,14 +55,14 @@ if [ -z "${WIRED_IP}" ] ; then
 	else
 		logger -t posbox_wireless_ap "Starting AP"
 
-		SSID=$(grep -oP '(?<=ssid=).*' /etc/hostapd/hostapd.conf)
+		SSID=$(grep -oP '(?<=ssid=).*' /etc/hostapd/hostapd.config)
 
 		if [ "${SSID}" = "IoTBox" ]
 		then
 			# override SSID to get a unique SSID
 			MAC=$(ip link show wlan0 | tail -n 1 | awk '{print $2}' | sed 's/\://g')
 			NEWSSID="${SSID}-${MAC}"
-			sed -ie "s/$(echo ${SSID})/$(echo ${NEWSSID})/g" /etc/hostapd/hostapd.conf
+			sed -ie "s/$(echo ${SSID})/$(echo ${NEWSSID})/g" /etc/hostapd/hostapd.config
 		fi
 
 		service hostapd restart

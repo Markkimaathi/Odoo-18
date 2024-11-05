@@ -106,7 +106,7 @@ class TSConfig(Command):
             "/**/*.so",
             "/**/*.pdf",
             "/**/*.xslt",
-            "/**/*.conf",
+            "/**/*.config",
             "/**/*.woff",
             "/**/*.xsd",
             "/**/*.eot",

@@ -373,7 +373,7 @@ class configmanager(object):
         """ Parse the configuration file (if any) and the command-line
         arguments.
 
-        This method initializes odoo.tools.config and openerp.conf (the
+        This method initializes odoo.tools.config and openerp.config (the
         former should be removed in the future) with library-wide
         configuration values.
 
@@ -436,7 +436,7 @@ class configmanager(object):
         # else he won't be able to save the configurations, or even to start the server...
         # TODO use appdirs
         if os.name == 'nt':
-            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'odoo.conf')
+            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'odoo.config')
         else:
             rcfilepath = os.path.expanduser('~/.odoorc')
             old_rcfilepath = os.path.expanduser('~/.openerp_serverrc')

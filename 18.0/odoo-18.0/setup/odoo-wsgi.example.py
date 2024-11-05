@@ -2,7 +2,7 @@
 #
 # Change the appropriate settings below, in order to provide the parameters
 # that would normally be passed in the command-line.
-# (at least conf['addons_path'])
+# (at least config['addons_path'])
 #
 # For generic wsgi handlers a global application is defined.
 # For uwsgi this should work:
@@ -24,14 +24,14 @@ conf = odoo.tools.config
 
 # Path to the OpenERP Addons repository (comma-separated for
 # multiple locations)
-#conf['addons_path'] = './odoo/addons,./addons'
+#config['addons_path'] = './odoo/addons,./addons'
 
 # Optional database config if not using local socket
-#conf['db_name'] = 'mycompany'
-#conf['db_host'] = 'localhost'
-#conf['db_user'] = 'foo'
-#conf['db_port'] = 5432
-#conf['db_password'] = 'secret'
+#config['db_name'] = 'mycompany'
+#config['db_host'] = 'localhost'
+#config['db_user'] = 'foo'
+#config['db_port'] = 5432
+#config['db_password'] = 'secret'
 
 #----------------------------------------------------------
 # Generic WSGI handlers application
