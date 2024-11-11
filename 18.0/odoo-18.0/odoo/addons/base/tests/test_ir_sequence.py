@@ -96,7 +96,7 @@ class TestIrSequenceNoGap(BaseCase):
         """
         with environment() as env0, environment() as env1:
             # NOTE: The error has to be an OperationalError
-            # s.t. the automatic request retry (service/model.py) works.
+            # s.t. the automatic request retry (service/models.py) works.
             with self.assertRaises(psycopg2.errors.LockNotAvailable, msg="postgresql returned an incorrect errcode"):
                 n0 = env0['ir.sequence'].next_by_code('test_sequence_type_2')
                 self.assertTrue(n0)
