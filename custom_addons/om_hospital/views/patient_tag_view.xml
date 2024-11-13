@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <menuitem id="menu_patient_tag"
+              name="Tags"
+              action="action_patient_tag"
+              parent="menu_configuration"
+              sequence="10"/>
+
     <record id="view_patient_tag_tree" model="ir.ui.view">
         <field name="name">patient.tag.tree</field>
         <field name="model">patient.tag</field>
@@ -48,9 +54,4 @@
         </field>
     </record>
 
-    <menuitem id="menu_patient_tag"
-              name="Tags"
-              action="action_patient_tag"
-              parent="menu_configuration"
-              sequence="10"/>
 </odoo>
