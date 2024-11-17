@@ -83,7 +83,7 @@ pip() {
 source ~/.bashrc
 source /home/pi/.bashrc
 
-# copy the odoo.config file to the overwrite directory
+# copy the odoo.conf file to the overwrite directory
 mv -v "/home/pi/odoo/addons/point_of_sale/tools/posbox/configuration/odoo.conf" "/home/pi/"
 chown pi:pi "/home/pi/odoo.conf"
 
@@ -157,7 +157,7 @@ PKGS_TO_INSTALL="
     xserver-xorg-video-dummy \
     xserver-xorg-video-fbdev"
 
-echo "Acquire::Retries "16";" > /etc/apt/apt.config.d/99acquire-retries
+echo "Acquire::Retries "16";" > /etc/apt/apt.conf.d/99acquire-retries
 # KEEP OWN CONFIG FILES DURING PACKAGE CONFIGURATION
 # http://serverfault.com/questions/259226/automatically-keep-current-version-of-config-files-when-apt-get-install
 apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install ${PKGS_TO_INSTALL}
@@ -216,8 +216,8 @@ chown pi:pi -R /home/pi/odoo/
 # logrotate is very picky when it comes to file permissions
 chown -R root:root /etc/logrotate.d/
 chmod -R 644 /etc/logrotate.d/
-chown root:root /etc/logrotate.config
-chmod 644 /etc/logrotate.config
+chown root:root /etc/logrotate.conf
+chmod 644 /etc/logrotate.conf
 
 echo "* * * * * rm /var/run/odoo/sessions/*" | crontab -
 

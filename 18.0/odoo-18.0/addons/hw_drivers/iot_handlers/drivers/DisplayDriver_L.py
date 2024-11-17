@@ -140,8 +140,8 @@ class DisplayController(http.Controller):
             display.update_url(url)
             return {'status': 'opened'}
         if action == 'close':
-            helpers.unlink_file('browser-url.config')
-            helpers.unlink_file('screen-orientation.config')
+            helpers.unlink_file('browser-url.conf')
+            helpers.unlink_file('screen-orientation.conf')
             display.browser.disable_kiosk_mode()
             display.update_url()
             return {'status': 'closed'}
