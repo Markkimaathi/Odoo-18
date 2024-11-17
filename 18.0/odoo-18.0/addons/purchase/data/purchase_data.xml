@@ -22,19 +22,12 @@
             <field name="default" eval="False"/>
             <field name="res_model">purchase.order</field>
         </record>
- <!-- New Sequence for RFQs -->
-        <record id="seq_rfq" model="ir.sequence">
-            <field name="name">Request for Quotation</field>
-            <field name="code">purchase.rfq</field>
-            <field name="prefix">RFQ-</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
+
         <!-- Sequences for purchase.order -->
         <record id="seq_purchase_order" model="ir.sequence">
             <field name="name">Purchase Order</field>
             <field name="code">purchase.order</field>
-            <field name="prefix">PO-</field>
+            <field name="prefix">P</field>
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
@@ -49,18 +42,7 @@
             <field name="code">action = records.action_share()</field>
         </record>
 
-        <!-- Default value for company_dependant field -->
-        <record forcecreate="True" id="receipt_reminder_email" model="ir.property">
-            <field name="name">receipt_reminder_email</field>
-            <field name="type" eval="'boolean'"/>
-            <field name="fields_id" search="[('model','=','res.partner'),('name','=','receipt_reminder_email')]"/>
-            <field eval="False" name="value"/>
-        </record>
-        <record forcecreate="True" id="reminder_date_before_receipt" model="ir.property">
-            <field name="name">reminder_date_before_receipt</field>
-            <field name="type" eval="'integer'"/>
-            <field name="fields_id" search="[('model','=','res.partner'),('name','=','reminder_date_before_receipt')]"/>
-            <field eval="1" name="value"/>
-        </record>
+        <!-- Fallback value for company_dependant field -->
+        <function model="ir.default" name="set" eval="('res.partner', 'reminder_date_before_receipt', 1)"/>
     </data>
 </odoo>
