@@ -25,8 +25,8 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         string="Items",
     )
     purchase_order_id = fields.Many2one(
-        comodel_name="purchase.order",
-        string="Purchase Order",
+        comodel_name="purchase.rfq",
+        string="RFQ",
         domain=[("state", "=", "draft")],
     )
     sync_data_planned = fields.Boolean(
@@ -123,18 +123,18 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         return res
 
     @api.model
-    def _prepare_purchase_order(self, picking_type, group_id, company, origin):
+    def _prepare_purchase_order(self, picking_type_id, group_id, company, name):
         if not self.supplier_id:
             raise UserError(_("Enter a supplier."))
         supplier = self.supplier_id
         data = {
-            "origin": origin,
+            "origin": name,
             "partner_id": self.supplier_id.id,
             "payment_term_id": self.supplier_id.property_supplier_payment_term_id.id,
             "fiscal_position_id": supplier.property_account_position_id
             and supplier.property_account_position_id.id
             or False,
-            "picking_type_id": picking_type.id,
+            "picking_type_id": picking_type_id.id,
             "company_id": company.id,
             "group_id": group_id.id,
         }
@@ -219,8 +219,8 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
     def make_purchase_order(self):
         res = []
-        purchase_obj = self.env["purchase.order"]
-        po_line_obj = self.env["purchase.order.line"]
+        purchase_obj = self.env["purchase.rfq"]
+        po_line_obj = self.env["purchase.rfq.line"]
         pr_line_obj = self.env["purchase.request.line"]
         user_tz = pytz.timezone(self.env.user.tz or "UTC")
         purchase = False
@@ -236,7 +236,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     line.request_id.picking_type_id,
                     line.request_id.group_id,
                     line.company_id,
-                    line.origin,
+                    line.request_id.name,
                 )
                 purchase = purchase_obj.create(po_data)
 
@@ -301,7 +301,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "domain": [("id", "in", res)],
             "name": _("RFQ"),
             "view_mode": "tree,form",
-            "res_model": "purchase.order",
+            "res_model": "purchase.rfq",
             "view_id": False,
             "context": False,
             "type": "ir.actions.act_window",

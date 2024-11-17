@@ -18,7 +18,6 @@
         'data/ir_cron_data.xml',
         'report/purchase_reports.xml',
         'views/purchase_views.xml',
-        'views/purchase_bill_line_match_views.xml',
         'views/res_config_settings_views.xml',
         'views/product_views.xml',
         'views/res_partner_views.xml',
@@ -28,11 +27,12 @@
         'data/mail_template_data.xml',
         'views/portal_templates.xml',
         'report/purchase_order_templates.xml',
+        'report/purchase_rfq_report.xml',
         'report/purchase_quotation_templates.xml',
         'views/product_packaging_views.xml',
         'views/analytic_account_views.xml',
-        'wizard/bill_to_po_wizard_views.xml',
-        'data/purchase_tour.xml',
+        'views/purchase_custom_views.xml',
+        'data/mail_template_rfq_data.xml',
     ],
     'demo': [
         'data/purchase_demo.xml',
@@ -41,7 +41,6 @@
     'application': True,
     'assets': {
         'web.assets_backend': [
-            'purchase/static/src/components/**/*',
             'purchase/static/src/product_catalog/**/*',
             'purchase/static/src/toaster_button/*',
             'purchase/static/src/views/*.js',

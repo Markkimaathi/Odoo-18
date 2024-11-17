@@ -32,7 +32,7 @@ class PurchaseRequestAllocation(models.Model):
     )
     purchase_line_id = fields.Many2one(
         string="Purchase Line",
-        comodel_name="purchase.order.line",
+        comodel_name="purchase.rfq.line",
         copy=True,
         ondelete="cascade",
         help="Service Purchase Order Line",
@@ -128,7 +128,5 @@ class PurchaseRequestAllocation(models.Model):
             message_data = self._prepare_message_data(po_line, request, allocated_qty)
             message = self._purchase_request_confirm_done_message_content(message_data)
             request.message_post(
-                body=message,
-                subtype_id=self.env.ref("mail.mt_comment").id,
-                body_is_html=True,
+                body=message, subtype_id=self.env.ref("mail.mt_comment").id
             )

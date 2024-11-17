@@ -5,7 +5,7 @@ from odoo import _, api, exceptions, fields, models
 
 
 class PurchaseOrder(models.Model):
-    _inherit = "purchase.order"
+    _inherit = "purchase.rfq"
 
     def _purchase_request_confirm_message_content(self, request, request_dict=None):
         self.ensure_one()
@@ -60,9 +60,7 @@ class PurchaseOrder(models.Model):
                     request, requests_dict[request_id]
                 )
                 request.message_post(
-                    body=message,
-                    subtype_id=self.env.ref("mail.mt_comment").id,
-                    body_is_html=True,
+                    body=message, subtype_id=self.env.ref("mail.mt_comment").id
                 )
         return True
 
@@ -100,7 +98,7 @@ class PurchaseOrder(models.Model):
 
 
 class PurchaseOrderLine(models.Model):
-    _inherit = "purchase.order.line"
+    _inherit = "purchase.rfq.line"
 
     purchase_request_lines = fields.Many2many(
         comodel_name="purchase.request.line",
@@ -182,9 +180,7 @@ class PurchaseOrderLine(models.Model):
                     message_data
                 )
                 alloc.purchase_request_line_id.request_id.message_post(
-                    body=message,
-                    subtype_id=self.env.ref("mail.mt_comment").id,
-                    body_is_html=True,
+                    body=message, subtype_id=self.env.ref("mail.mt_comment").id
                 )
 
                 alloc.purchase_request_line_id._compute_qty()
