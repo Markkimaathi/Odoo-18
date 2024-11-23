@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+
+        <!-- Tree View -->
+        <record id="view_procure_order_tree" model="ir.ui.view">
+            <field name="name">procure.order.tree</field>
+            <field name="model">procure.purchase.order</field>
+            <field name="arch" type="xml">
+                <tree string="Procure to Pay Orders">
+                    <field name="name"/>
+                    <field name="vendor_id"/>
+                    <field name="order_date"/>
+                    <field name="total_amount" widget="monetary"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_procure_order_form" model="ir.ui.view">
+            <field name="name">procure.order.form</field>
+            <field name="model">procure.purchase.order</field>
+            <field name="arch" type="xml">
+                <form string="Procure to Pay Order">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="vendor_id"/>
+                            <field name="order_date"/>
+                            <field name="total_amount" widget="monetary"/>
+                            <field name="state"/>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines">
+                                <field name="order_line_ids">
+                                    <tree>
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit" widget="monetary"/>
+                                        <field name="price_total" widget="monetary"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_procure_order" model="ir.actions.act_window">
+            <field name="name">Procure to Pay Orders</field>
+            <field name="res_model">procure.purchase.order</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_procure_root" name="Procure to Pay" sequence="10"/>
+        <menuitem id="menu_procure_orders" name="Purchase Orders" parent="menu_procure_root" action="action_procure_order" sequence="20"/>
+
+    </data>
+</odoo>
