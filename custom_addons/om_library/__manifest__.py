@@ -10,6 +10,7 @@
     "license": 'LGPL-3',
     'depends': ['base', 'hr', 'contacts', 'mail',],
     'data': [
+        'views/books.xml',
     ],
     'demo': [],
     'installable': True,
