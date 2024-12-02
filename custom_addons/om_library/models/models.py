@@ -17,5 +17,5 @@ class LibraryCategory(models.Model):
     _name = "library.category"
     _description = "Library Category"
 
-    name = fields.Char('Name', required=True)
+    name = fields.Char('Namee', required=True)
     description = fields.Char('Description')
